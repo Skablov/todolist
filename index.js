@@ -1,12 +1,21 @@
 const MongoClient = require('mongodb').MongoClient;
 const express = require('express');
+const bodyParser = require('body-parser');
+const config = require('./config');
+
+
 const app = express();
 
 app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({ extended: true}));
+var arr = ['hello', 'world', 'test'];
 
-const data = 'hi';
-
-app.get('/', (req, res) => res.render('index', {data: data}));
+app.get('/', (req, res) => res.render('index', {arr: arr}));
+app.get('/create', (req, res) => res.render('create'));
+app.post('/create', (req, res) => {
+	arr.push(req.body.text);
+	res.redirect('/');
+});
 
 // replace the uri string with your connection string.
 const uri = "mongodb+srv://admin:admin@cluster0-3ogiv.mongodb.net/test?retryWrites=true"
@@ -20,5 +29,5 @@ MongoClient.connect(uri, { useNewUrlParser: true }, function(err, client) {
    client.close();
 });
 
-app.listen(3000, () => console.log("Server start on 3000 port"));
+app.listen(config.PORT, () => console.log(`Server start on ${config.PORT}`));
 
