@@ -33,11 +33,11 @@
 						{
 							$.ajax({
 								url: "/delete",
-								type: "GET",
-								contentType: "application/json",
-								data: JSON.stringify({
-									id: tasks[(i * 2)]
-								})
+								type: "POST",
+								data: `id=${tasks[(i * 2)]}`,
+								success: (ans) =>{
+									alert('aeer');
+								}
 							})
 						}
 						else
@@ -47,6 +47,7 @@
 					}
 					li.innerHTML = tasks[(i * 2) + 1];
 					ul.appendChild(li);
+					console.log(tasks[(i * 2)]);
 				}
 			}
 		})
