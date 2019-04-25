@@ -23,6 +23,7 @@
 			contentType: "application/json",
 			success: (tasks) =>{
 				let ul = document.getElementById('list');
+				ul.innerHTML = " ";
 				for(let i = 0; i < tasks.length / 2; i++)
 				{
 					let li = document.createElement('li');
@@ -36,7 +37,7 @@
 								type: "POST",
 								data: `id=${tasks[(i * 2)]}`,
 								success: (ans) =>{
-									alert('aeer');
+									GetTask();
 								}
 							})
 						}

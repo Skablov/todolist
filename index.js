@@ -48,6 +48,16 @@ app.post('/delete', (req, res) =>{
 	})
 });
 
+app.post('/', (req,res)=>{
+	let task = {task: req.body.task};
+
+	const collection = req.app.locals.collection;
+	collection.insertOne(task,(err,result)=>{
+		if(err) return console.log(err);
+		res.redirect('/');
+	});
+});
+
 
 
 
