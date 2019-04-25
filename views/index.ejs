@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>document</title>
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+</head>
+<body>
+	<h1>Todo list on nodeJs</h1>
+	<form method="post">
+		<input type="text" name="task">
+		<button type="submit">add</button>
+	</form>
+	<ul id="list">
+		
+	</ul>
+<script>
+	GetTask();
+	function GetTask(){
+		$.ajax({
+			url: "/tasks",
+			type: "GET",
+			contentType: "application/json",
+			success: (tasks) =>{
+				let ul = document.getElementById('list');
+				ul.innerHTML = " ";
+				for(let i = 0; i < tasks.length / 2; i++)
+				{
+					let li = document.createElement('li');
+					li.onclick = () =>
+					{
+						let answer = confirm("Вы желаете удалить этот таск?");
+						if(answer)
+						{
+							$.ajax({
+								url: "/delete",
+								type: "POST",
+								data: `id=${tasks[(i * 2)]}`,
+								success: (ans) =>{
+									GetTask();
+								}
+							})
+						}
+						else
+						{
+							return;
+						}
+					}
+					li.innerHTML = tasks[(i * 2) + 1];
+					ul.appendChild(li);
+					console.log(tasks[(i * 2)]);
+				}
+			}
+		})
+	}
+</script>
+</body>
+</html>
